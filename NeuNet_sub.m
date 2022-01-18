@@ -1,4 +1,4 @@
-function [Ac_t] = NeuNet_sub (dim,nlay,nr,VN,NetPart)
+function [Ac_t] = NeuNet_sub (dim,nlay,nrmax,nr,VN,NetPart)
 
 for i=2:nlay
     for j=1:nr(i,1)

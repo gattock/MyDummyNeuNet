@@ -1,4 +1,4 @@
-function [loss_1] = Crun_sub(Xp,Vp,cycles,dim,nlay,nrmax,nr,tmax,dt,NetPart)
+function [loss_1] = Crun_evo_sub(Xp,Vp,cycles,dim,nlay,nrmax,nr,tmax,dt,NetPart)
 format compact; %h is which caccia
 VN=zeros(nlay,nrmax); %si resetta ogni round
 t=0; 
@@ -16,6 +16,11 @@ for i=1:cycles-1
           Vc(:,i+1)=Vc(:,i)+Ac(:,i)*dt;
            t=t+dt;              
 end
-%cost function subroutine
-[loss_1]= Cost_sub(Xc,Xp,cycles,dim);
-
+%cost function subroutine  [loss_1]= Cost_sub(Xc,Xp,cycles,dim);
+loss=0;
+for f=1:cycles-1
+    for j=1:dim
+    loss= loss+ sqrt( (Xc(j,f)-Xp(j,f))^2 );
+    end
+end
+loss_1=loss/(cycles-1);

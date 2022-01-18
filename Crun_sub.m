@@ -1,4 +1,4 @@
-function [loss_1] = Crun_sub(Xp,Vp,cycles,h,dim,nlay,nrmax,nr,tmax,dt,NetPart)
+function [loss_temp] = Crun_sub(Xp,Vp,cycles,h,gen,dim,nlay,nrmax,nr,tmax,dt,NetPart)
 format compact; %h is which caccia
 VN=zeros(nlay,nrmax); %si resetta ogni round
 t=0; 
@@ -16,10 +16,20 @@ for i=1:cycles-1
           Vc(:,i+1)=Vc(:,i)+Ac(:,i)*dt;
            t=t+dt;              
 end
-writematrix(Xc,'Out1.xlsx','Sheet',h,'Range','C2');
-%writematrix(Vc,'Out1.xlsx','Sheet',h,'Range','C5');
- 
+
+filename=['Xc' num2str(gen) '_' num2str(h) '.txt'];
+writematrix(Xc, filename);
+
 %cost function subroutine
-[loss_1]= Cost_sub(Xc,Xp,cycles,dim);
-writematrix(loss_1,'Out1.xlsx','Sheet',h,'Range','A2');
+%[loss_1]= Cost_sub(Xc,Xp,cycles,dim);
+loss=0;
+for f=1:cycles-1
+    for j=1:dim
+    loss= loss+ sqrt( (Xc(j,f)-Xp(j,f))^2 );
+    end
+end
+% 1/cycles=dt/tmax-> integration dt;  integral average-> /tmax
+loss_temp=loss/(cycles-1);
+
+%writematrix(loss_1, 'Loss1.txt');
 

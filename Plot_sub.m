@@ -1,9 +1,9 @@
-function [sciao] = Plot_sub(Xp,cycles,dim,ans)
+function [sciao] = Plot_sub(Xp,cycles,dim,ans,gen)
 %plot parameters
 axis(gca,'equal'); %same aspect ratio
 axis([-6 6 -6 6]); %plot dominium RxR
-
-Xc=readmatrix('OutSort.xlsx','Sheet',ans,'Range','C2');
+filename=['XcSort' num2str(gen) '_' num2str(ans) '.txt'];
+Xc=readmatrix(filename);
    %plot zone 
    PlotP=zeros(dim,1); PlotC=zeros(dim,1);
    for i=1:cycles
